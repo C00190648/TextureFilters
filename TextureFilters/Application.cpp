@@ -8,7 +8,7 @@ const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 Application::Application()
     : m_hide(false)
 	, m_quit(false)
-	, m_lastTime(LTimer::gameTime())
+	, m_lastTime(Timer::gameTime())
 	, m_currentImage(0)
 	, m_values(NUM_OF_VARS)
 	, m_texture(NUM_OF_VARS)
@@ -60,7 +60,6 @@ bool Application::Initialize(const char* title, int xpos, int ypos, int width, i
 
 void Application::CleanUp()
 {
-	std::cout << "Cleaning Up" << std::endl;
 	SDL_DestroyWindow(m_window);
 	SDL_DestroyRenderer(m_renderer);
 	SDL_Quit();
@@ -68,7 +67,7 @@ void Application::CleanUp()
 
 void Application::Loop()
 {
-	LTimer capTimer;
+	Timer capTimer;
 	int frameNum = 0;
 
 	while (!m_quit)
@@ -89,17 +88,7 @@ void Application::Loop()
 
 void Application::LoadContent()
 {
-	//SetText(m_values[Image], Image);
-	//SetText(m_values[Pixel], Pixel);
-	//SetText(m_values[Blur], Blur);
-	//SetText(m_values[Threshold], Threshold);
-	//SetText(static_cast<float>(m_values[Blend]) / 10.f, Blend);
-
-	FilterManager::Instance()->createJtexture("assets/image0.png", 0, m_renderer);
-	FilterManager::Instance()->createJtexture("assets/image1.png", 1, m_renderer);
-	FilterManager::Instance()->createJtexture("assets/image2.png", 2, m_renderer);
-	m_texture[Background] = LoadTexture("assets/bg.png");
-	m_texture[Cursor] = LoadTexture("assets/icon.png");
+	FilterManager::Instance()->createJtexture("assets/image2.png", 0, m_renderer);
 }
 
 void Application::UnloadContent()
@@ -125,7 +114,7 @@ void Application::Render()
 
 void Application::Update()
 {
-	unsigned int currentTime = LTimer::gameTime();
+	unsigned int currentTime = Timer::gameTime();
 	float deltaTime = (currentTime - m_lastTime) / 1000.f;
 	// Update in here
 	m_lastTime = currentTime;
@@ -178,75 +167,6 @@ void Application::HandleEvents()
 						break;
 					case SDLK_8:
 						FilterManager::Instance()->edgeDectection(m_values[Image], FilterManager::Emboss);
-						break;
-					/*case SDLK_LEFT:
-						if (m_values[Cursor] == Image && m_values[Image] > 0)
-						{
-							m_values[Image]--;
-							SetText(m_values[Image], Image);
-						}
-						if (m_values[Cursor] == Pixel && m_values[Pixel] > 2)
-						{
-							m_values[Pixel]--;
-							SetText(m_values[Pixel], Pixel);
-						}
-						if (m_values[Cursor] == Blend && m_values[Blend] > 1)
-						{
-							m_values[Blend]--;
-							SetText(static_cast<float>(m_values[Blend]) / 10.f, Blend);
-						}
-						if (m_values[Cursor] == Threshold && m_values[Threshold] > 1)
-						{
-							m_values[Threshold]--;
-							SetText(m_values[Threshold], Threshold);
-						}
-						if (m_values[Cursor] == Blur && m_values[Blur] > 1)
-						{
-							m_values[Blur]--;
-							SetText(m_values[Blur], Blur);
-						}
-						break;
-					case SDLK_RIGHT:
-
-						if (m_values[Cursor] == Image && m_values[Image] < NUM_OF_IMAGES)
-						{
-							m_values[Image]++;
-							SetText(m_values[Image], Image);
-						}
-						if (m_values[Cursor] == Pixel && m_values[Pixel] < MAX_PIXEL_SIZE)
-						{
-							m_values[Pixel]++;
-							SetText(m_values[Pixel], Pixel);
-						}
-						if (m_values[Cursor] == Blend && m_values[Blend] < MAX_BLEND_AMOUNT)
-						{
-							m_values[Blend]++;
-							SetText(static_cast<float>(m_values[Blend]) / 10.f, Blend);
-						}
-						if (m_values[Cursor] == Threshold && m_values[Threshold] < MAX_THRESHOLD)
-						{
-							m_values[Threshold]++;
-							SetText(m_values[Threshold], Threshold);
-						}
-						if (m_values[Cursor] == Blur && m_values[Blur] < MAX_BLUR_RADIUS)
-						{
-							m_values[Blur]++;
-							SetText(m_values[Blur], Blur);
-						}
-						break;*/
-					case SDLK_DOWN:
-						if (m_values[Cursor] < Blend)
-						{
-							m_values[Cursor]++;
-							m_textureRect[Cursor].y += CURSOR_OFFESET;
-						}
-						break;
-					case SDLK_UP:
-						if (m_values[Cursor] > Image)
-						{
-							m_values[Cursor]--;
-							m_textureRect[Cursor].y -= CURSOR_OFFESET;
-						}
 						break;
 				}
 			}

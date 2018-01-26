@@ -6,14 +6,14 @@ int edge_enhance[3][3] = { { 0,0,0 },{ -1,1,0 },{ 0,0,0 } };
 int edge_detect[3][3] = { { -1,-1,-1 },{ -1,8,-1 },{ -1,-1,-1 } };
 int emboss[3][3] = { { -2,-1,0 },{ -1,1,1 },{ 0,1,2 } };
 
-Uint32 * TextureEffect::edgeDectection(int type, JTexture * jTexture)
+Uint32 * TextureEffect::edgeDectection(int type, Texture * Texture)
 {
-	int pixelCount = static_cast<int>(jTexture->getPitch() * 0.25f) *  jTexture->getHeight();
+	int pixelCount = static_cast<int>(Texture->getPitch() * 0.25f) *  Texture->getHeight();
 	Uint32* tempPixels = new Uint32[pixelCount];
-	Uint32* pixels = (Uint32*)jTexture->getPixels();
+	Uint32* pixels = (Uint32*)Texture->getPixels();
 
-	int imageWidth = jTexture->getWidth();
-	int imageHeight = jTexture->getHeight();
+	int imageWidth = Texture->getWidth();
+	int imageHeight = Texture->getHeight();
 
 	int* filter_type = NULL;
 	if (type == 0)
@@ -62,11 +62,11 @@ Uint32 * TextureEffect::edgeDectection(int type, JTexture * jTexture)
 	return tempPixels;
 }
 
-Uint32 * TextureEffect::grayScale(JTexture * jTexture)
+Uint32 * TextureEffect::grayScale(Texture * Texture)
 {
-	int pixelCount = static_cast<int>(jTexture->getPitch() * 0.25f) *  jTexture->getHeight();
+	int pixelCount = static_cast<int>(Texture->getPitch() * 0.25f) *  Texture->getHeight();
 	Uint32* tempPixels = new Uint32[pixelCount];
-	Uint32* pixels = (Uint32*)jTexture->getPixels();
+	Uint32* pixels = (Uint32*)Texture->getPixels();
 
 	for (int i = 0; i < pixelCount; ++i)
 	{
@@ -80,11 +80,11 @@ Uint32 * TextureEffect::grayScale(JTexture * jTexture)
 	return tempPixels;
 }
 
-Uint32 * TextureEffect::brightPass(int threshold, JTexture * jTexture)
+Uint32 * TextureEffect::brightPass(int threshold, Texture * Texture)
 {
-	int pixelCount = static_cast<int>(jTexture->getPitch() * 0.25f) *  jTexture->getHeight();
+	int pixelCount = static_cast<int>(Texture->getPitch() * 0.25f) *  Texture->getHeight();
 	Uint32* tempPixels = new Uint32[pixelCount];
-	Uint32* pixels = (Uint32*)jTexture->getPixels();
+	Uint32* pixels = (Uint32*)Texture->getPixels();
 
 	for (int i = 0; i < pixelCount; ++i)
 	{
@@ -101,10 +101,10 @@ Uint32 * TextureEffect::brightPass(int threshold, JTexture * jTexture)
 	return tempPixels;
 }
 
-Uint32 * TextureEffect::bloom(float blendAmount, Uint32 * tempPixels, JTexture * jTexture)
+Uint32 * TextureEffect::bloom(float blendAmount, Uint32 * tempPixels, Texture * Texture)
 {
-	int pixelCount = static_cast<int>(jTexture->getPitch() * 0.25f) *  jTexture->getHeight();
-	Uint32* pixels = (Uint32*)jTexture->getPixels();
+	int pixelCount = static_cast<int>(Texture->getPitch() * 0.25f) *  Texture->getHeight();
+	Uint32* pixels = (Uint32*)Texture->getPixels();
 
 	float totA = 0;
 	float totR = 0;
@@ -136,23 +136,23 @@ Uint32 * TextureEffect::bloom(float blendAmount, Uint32 * tempPixels, JTexture *
 	return tempPixels;
 }
 
-Uint32 * TextureEffect::gaussianBlur(int radius, JTexture * jTexture, Uint32 * editedPixels, bool bloom)
+Uint32 * TextureEffect::gaussianBlur(int radius, Texture * Texture, Uint32 * editedPixels, bool bloom)
 {
 	Uint32* pixels = NULL;
 	float * kernelData = NULL;
 	int kernelSize = radius * 2 + 1;
 	kernelData = calc1DGaussianKernel(radius, kernelSize, kernelData);
 
-	int pixelCount = static_cast<int>(jTexture->getPitch() * 0.25f) *  jTexture->getHeight();
+	int pixelCount = static_cast<int>(Texture->getPitch() * 0.25f) *  Texture->getHeight();
 	Uint32* tempPixels = new Uint32[pixelCount];
 
 	if (!bloom)
-		pixels = (Uint32*)jTexture->getPixels();
+		pixels = (Uint32*)Texture->getPixels();
 	else
 		pixels = editedPixels;
 
-	int imageWidth = jTexture->getWidth();
-	int imageHeight = jTexture->getHeight();
+	int imageWidth = Texture->getWidth();
+	int imageHeight = Texture->getHeight();
 	int offset = static_cast<int>(kernelSize * 0.5f);
 
 	for (int x = 0; x < imageWidth; x++)
@@ -228,16 +228,16 @@ Uint32 * TextureEffect::gaussianBlur(int radius, JTexture * jTexture, Uint32 * e
 	return tempPixels;
 }
 
-Uint32 * TextureEffect::pixelate(int pixelSize, JTexture * jTexture)
+Uint32 * TextureEffect::pixelate(int pixelSize, Texture * Texture)
 {
 	int pixelSizeX = pixelSize;
 	int pixelSizeY = pixelSize;
-	int pixelCount = static_cast<int>(jTexture->getPitch() * 0.25f) *  jTexture->getHeight();
+	int pixelCount = static_cast<int>(Texture->getPitch() * 0.25f) *  Texture->getHeight();
 	Uint32* tempPixels = new Uint32[pixelCount];
-	Uint32* pixels = (Uint32*)jTexture->getPixels();
+	Uint32* pixels = (Uint32*)Texture->getPixels();
 
-	int imageWidth = jTexture->getWidth();
-	int imageHeight = jTexture->getHeight();
+	int imageWidth = Texture->getWidth();
+	int imageHeight = Texture->getHeight();
 
 	for (int x = 0; x < imageWidth; x+= pixelSizeX)
 	{

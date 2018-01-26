@@ -16,7 +16,7 @@ int main()
 {
 	Application* app = new Application();
 
-	app->Initialize("RWM - Texture Filters", 500, 200, 800, 600, SDL_WINDOW_INPUT_FOCUS);
+	app->Initialize("Texture Filters", 500, 200, 800, 600, SDL_WINDOW_INPUT_FOCUS);
 	app->Loop();
 	app->CleanUp();
 	system("Pause");

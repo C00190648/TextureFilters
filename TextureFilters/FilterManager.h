@@ -2,7 +2,7 @@
 #include <map>
 #include <SDL.h>
 #include <SDL_image.h>
-#include "JTexture.h"
+#include "Texture.h"
 #include "TextureEffect.h"
 class FilterManager
 {
@@ -41,7 +41,7 @@ private:
 	const int MAX_BLUR_RADIUS = 100;
 	const int MAX_PIXEL_SIZE = 100;
 	static FilterManager *m_inst;
-	std::map<int, JTexture*> m_textureMap;
+	std::map<int, Texture*> m_textureMap;
 	FilterManager();
 	~FilterManager();
 

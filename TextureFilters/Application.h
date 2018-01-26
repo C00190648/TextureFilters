@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include "SDL.h"
-#include "LTimer.h"
+#include "Timer.h"
 #include "FilterManager.h"
 #include <vector>
 

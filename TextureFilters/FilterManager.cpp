@@ -20,7 +20,7 @@ FilterManager * FilterManager::Instance()
 ///////////////////////////////////////////////////////////////
 bool FilterManager::createJtexture(std::string fileName, int id, SDL_Renderer * renderer)
 {
-	JTexture* temp = new JTexture();
+	Texture* temp = new Texture();
 	if (temp->loadFromFile(fileName, renderer))
 	{
 		m_textureMap[id] = temp;
